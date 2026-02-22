@@ -1,0 +1,1197 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ASM Fisioterapia | Dra Andresa Augusto</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --navy: #1a365d;
+            --navy-light: #2c5282;
+            --gold: #c9a227;
+            --gold-light: #d4af37;
+            --gray-bg: #f7fafc;
+            --gray-text: #4a5568;
+            --white: #ffffff;
+            --border: #e2e8f0;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+            background-color: var(--gray-bg);
+            color: var(--navy);
+            line-height: 1.6;
+        }
+
+        /* Header Institucional */
+        .header {
+            background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
+            color: var(--white);
+            padding: 3rem 1.5rem;
+            text-align: center;
+            border-bottom: 4px solid var(--gold);
+        }
+
+        .header-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 2.2rem;
+            font-weight: 300;
+            letter-spacing: 3px;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+        }
+
+        .logo strong {
+            font-weight: 700;
+            color: var(--gold);
+        }
+
+        .subtitle {
+            font-size: 1rem;
+            opacity: 0.9;
+            font-weight: 300;
+            letter-spacing: 2px;
+        }
+
+        .header-divider {
+            width: 60px;
+            height: 2px;
+            background: var(--gold);
+            margin: 1.5rem auto;
+        }
+
+        /* Navigation Premium */
+        .nav-container {
+            background: var(--white);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .nav {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 1rem;
+            max-width: 1000px;
+            margin: 0 auto;
+            flex-wrap: wrap;
+        }
+
+        .nav-btn {
+            background: transparent;
+            color: var(--navy);
+            border: 2px solid transparent;
+            padding: 0.9rem 1.5rem;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+            border-radius: 0;
+            position: relative;
+        }
+
+        .nav-btn:hover {
+            color: var(--gold);
+        }
+
+        .nav-btn.active {
+            color: var(--gold);
+            border-bottom: 2px solid var(--gold);
+        }
+
+        .nav-btn i {
+            margin-right: 0.5rem;
+        }
+
+        /* Main Content */
+        .main-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+            min-height: 60vh;
+        }
+
+        /* Sections */
+        .section {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Document Style Cards */
+        .doc-header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 2px solid var(--gold);
+        }
+
+        .doc-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--navy);
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .doc-subtitle {
+            color: var(--gray-text);
+            font-size: 1rem;
+            font-weight: 400;
+        }
+
+        .content-block {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-left: 4px solid var(--gold);
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+
+        .content-block h3 {
+            color: var(--navy);
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .content-block p {
+            color: var(--gray-text);
+            margin-bottom: 1rem;
+            text-align: justify;
+            line-height: 1.8;
+        }
+
+        .content-block ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .content-block li {
+            padding: 0.6rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+            color: var(--gray-text);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .content-block li:last-child {
+            border-bottom: none;
+        }
+
+        .content-block li::before {
+            content: '▸';
+            position: absolute;
+            left: 0;
+            color: var(--gold);
+            font-weight: bold;
+        }
+
+        /* Specialty Grid */
+        .specialty-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .specialty-card {
+            background: var(--white);
+            border: 1px solid var(--border);
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .specialty-card:hover {
+            border-color: var(--gold);
+            box-shadow: 0 4px 12px rgba(201,162,39,0.15);
+        }
+
+        .specialty-icon {
+            font-size: 2rem;
+            color: var(--gold);
+            margin-bottom: 0.8rem;
+        }
+
+        .specialty-title {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--navy);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* CTA Buttons */
+        .cta-container {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 2.5rem;
+            flex-wrap: wrap;
+        }
+
+        .cta-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.8rem;
+            padding: 1.2rem 2.5rem;
+            text-decoration: none;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            border: 2px solid;
+            cursor: pointer;
+        }
+
+        .cta-primary {
+            background: var(--navy);
+            color: var(--white);
+            border-color: var(--navy);
+        }
+
+        .cta-primary:hover {
+            background: var(--gold);
+            border-color: var(--gold);
+            color: var(--navy);
+        }
+
+        .cta-secondary {
+            background: transparent;
+            color: var(--navy);
+            border-color: var(--navy);
+        }
+
+        .cta-secondary:hover {
+            background: var(--navy);
+            color: var(--white);
+        }
+
+        .cta-whatsapp {
+            background: #25d366;
+            color: var(--white);
+            border-color: #25d366;
+        }
+
+        .cta-whatsapp:hover {
+            background: #128c7e;
+            border-color: #128c7e;
+        }
+
+        .cta-gold {
+            background: var(--gold);
+            color: var(--navy);
+            border-color: var(--gold);
+        }
+
+        .cta-gold:hover {
+            background: var(--navy);
+            border-color: var(--navy);
+            color: var(--white);
+        }
+
+        /* Course Cards - Estilo PDF */
+        .course-card {
+            background: var(--white);
+            border: 1px solid var(--border);
+            padding: 0;
+            margin-bottom: 2.5rem;
+            position: relative;
+            border-top: 4px solid var(--gold);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+
+        .course-badge {
+            position: absolute;
+            top: -12px;
+            right: 2rem;
+            background: var(--navy);
+            color: var(--white);
+            padding: 0.5rem 1.5rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .course-badge.featured {
+            background: var(--gold);
+            color: var(--navy);
+        }
+
+        .course-header {
+            background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
+            color: var(--white);
+            padding: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .course-icon {
+            font-size: 3rem;
+            color: var(--gold);
+        }
+
+        .course-title-group h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.3rem;
+        }
+
+        .course-title-group p {
+            font-size: 0.95rem;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+
+        .course-body {
+            padding: 2rem;
+        }
+
+        .course-section {
+            margin-bottom: 2rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .course-section:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .section-title {
+            font-size: 1.1rem;
+            color: var(--navy);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .section-title i {
+            color: var(--gold);
+        }
+
+        .course-text {
+            color: var(--gray-text);
+            line-height: 1.8;
+            margin-bottom: 1rem;
+            text-align: justify;
+        }
+
+        .feature-list {
+            list-style: none;
+            margin: 1rem 0;
+        }
+
+        .feature-list li {
+            padding: 0.8rem 0;
+            padding-left: 2rem;
+            position: relative;
+            color: var(--gray-text);
+            border-bottom: 1px solid var(--border);
+            line-height: 1.6;
+        }
+
+        .feature-list li:last-child {
+            border-bottom: none;
+        }
+
+        .feature-list li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--gold);
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .highlight-box {
+            background: var(--gray-bg);
+            border-left: 4px solid var(--gold);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .highlight-box p {
+            color: var(--navy);
+            font-weight: 500;
+            margin: 0;
+        }
+
+        /* Price Section */
+        .price-section {
+            background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
+            color: var(--white);
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .price-label {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            opacity: 0.9;
+            margin-bottom: 0.5rem;
+        }
+
+        .price-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--gold);
+            margin-bottom: 0.5rem;
+        }
+
+        .price-old {
+            text-decoration: line-through;
+            opacity: 0.7;
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .price-note {
+            font-size: 0.85rem;
+            opacity: 0.8;
+        }
+
+        .course-footer {
+            padding: 1.5rem 2rem;
+            background: var(--white);
+            border-top: 1px solid var(--border);
+            text-align: center;
+        }
+
+        /* Contact Section */
+        .contact-info {
+            background: var(--navy);
+            color: var(--white);
+            padding: 2rem;
+            text-align: center;
+            margin-top: 2rem;
+        }
+
+        .contact-title {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .contact-detail {
+            font-size: 1.5rem;
+            font-weight: 300;
+            margin-bottom: 0.5rem;
+        }
+
+        .contact-detail i {
+            color: var(--gold);
+            margin-right: 0.5rem;
+        }
+
+        .contact-note {
+            font-size: 0.85rem;
+            opacity: 0.8;
+            margin-top: 1rem;
+            font-style: italic;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--navy);
+            color: var(--white);
+            text-align: center;
+            padding: 2rem;
+            border-top: 3px solid var(--gold);
+        }
+
+        .footer-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .footer-logo {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+
+        .footer-logo span {
+            color: var(--gold);
+        }
+
+        .footer-copy {
+            font-size: 0.8rem;
+            opacity: 0.7;
+            margin-top: 1rem;
+        }
+
+        /* Modal */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.6);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--white);
+            max-width: 500px;
+            width: 100%;
+            padding: 2.5rem;
+            border-top: 4px solid var(--gold);
+            position: relative;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--gray-text);
+        }
+
+        .modal-title {
+            font-size: 1.3rem;
+            color: var(--navy);
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .modal-text {
+            color: var(--gray-text);
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+        }
+
+        .modal-btn {
+            display: block;
+            width: 100%;
+            padding: 1rem;
+            background: var(--navy);
+            color: var(--white);
+            text-align: center;
+            text-decoration: none;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .modal-btn:hover {
+            background: var(--gold);
+            color: var(--navy);
+        }
+
+        /* Formation Section */
+        .formation-item {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-left: 4px solid var(--gold);
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .formation-flag {
+            font-size: 2rem;
+        }
+
+        .formation-text h4 {
+            color: var(--navy);
+            margin-bottom: 0.3rem;
+        }
+
+        .formation-text p {
+            color: var(--gray-text);
+            font-size: 0.9rem;
+            margin: 0;
+        }
+
+        /* Mobile */
+        @media (max-width: 768px) {
+            .logo {
+                font-size: 1.5rem;
+            }
+            
+            .nav-btn {
+                padding: 0.7rem 1rem;
+                font-size: 0.8rem;
+            }
+            
+            .content-block {
+                padding: 1.5rem;
+            }
+            
+            .cta-btn {
+                padding: 1rem 2rem;
+                font-size: 0.8rem;
+            }
+
+            .course-header {
+                flex-direction: column;
+                text-align: center;
+                padding: 1.5rem;
+            }
+
+            .course-title-group h2 {
+                font-size: 1.2rem;
+            }
+
+            .course-body {
+                padding: 1.5rem;
+            }
+
+            .price-value {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">ASM <strong>Fisioterapia</strong></div>
+            <div class="subtitle">Dra Andresa Augusto - CREFITO 40.9314-F</div>
+            <div class="header-divider"></div>
+            <div class="subtitle">Consciência Clínica · Raciocínio · Excelência</div>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav class="nav-container">
+        <div class="nav">
+            <button class="nav-btn active" onclick="showSection('institucional')">
+                <i class="fas fa-building"></i> Institucional
+            </button>
+            <button class="nav-btn" onclick="showSection('atuacao')">
+                <i class="fas fa-map-marker-alt"></i> Consultório
+            </button>
+            <button class="nav-btn" onclick="showSection('especialidades')">
+                <i class="fas fa-stethoscope"></i> Especialidades
+            </button>
+            <button class="nav-btn" onclick="showSection('cursos')">
+                <i class="fas fa-book-open"></i> Cursos/Serviços
+            </button>
+            <button class="nav-btn" onclick="openModal()">
+                <i class="fas fa-calendar-check"></i> Agendar
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-container">
+
+        <!-- Institucional Section -->
+        <section id="institucional" class="section active">
+            <div class="doc-header">
+                <div class="doc-title">Apresentação Institucional</div>
+                <div class="doc-subtitle">Conhecimento · Processo · Pensamento Clínico</div>
+            </div>
+
+            <div class="content-block">
+                <h3>Quem Sou</h3>
+                <p>Sou fisioterapeuta neurofuncional, especialista em escoliose e disfunções musculoesqueléticas, com atuação clínica consolidada e forte posicionamento em raciocínio clínico, organização profissional e formação de outros fisioterapeutas.</p>
+                
+                <p>Meu trabalho vai além da execução técnica: atuo na construção de consciência clínica, tomada de decisão segura e estruturação profissional sustentável.</p>
+            </div>
+
+            <div class="content-block">
+                <h3>Atuação Profissional</h3>
+                <ul>
+                    <li>Atendimento em clínica com foco em neurofuncional infantil e adultos com disfunções complexas</li>
+                    <li>Dor musculoesquelética e acompanhamento funcional de longo prazo</li>
+                    <li>Formação de profissionais e mentoria de fisioterapeutas e estudantes</li>
+                    <li>Foco em clareza de pensamento, ética, autonomia e profissionalismo</li>
+                </ul>
+            </div>
+
+            <div class="cta-container">
+                <a href="https://instagram.com/dra.andresaaugusto" target="_blank" class="cta-btn cta-secondary">
+                    <i class="fab fa-instagram"></i> Instagram
+                </a>
+                <button onclick="openModal()" class="cta-btn cta-primary">
+                    <i class="fas fa-calendar-check"></i> Agendar Avaliação
+                </button>
+            </div>
+        </section>
+
+        <!-- Consultorio Section -->
+        <section id="atuacao" class="section">
+            <div class="doc-header">
+                <div class="doc-title">Atuação Clínica</div>
+                <div class="doc-subtitle">Ipatinga e Antônio Dias - Minas Gerais</div>
+            </div>
+
+            <div class="content-block">
+                <h3>Atendimento Clínico</h3>
+                <p>Atuo com atendimento especializado oferecendo fisioterapia individualizada baseada em avaliação funcional detalhada e raciocínio clínico estruturado.</p>
+                
+                <p>O atendimento é conduzido com base em evidências científicas, respeitando a individualidade de cada paciente e construindo planos terapêuticos realistas e efetivos.</p>
+            </div>
+
+            <div class="content-block">
+                <h3>Local de Atendimento</h3>
+                <p style="text-align: center; font-size: 1.1rem; margin: 1.5rem 0;">
+                    <i class="fas fa-map-pin" style="color: var(--gold);"></i><br>
+                    <strong>Ipatinga - MG</strong><br>
+                    <span style="font-size: 0.9rem; color: var(--gray-text);">Atendimento presencial em consultório particular</span>
+                </p>
+                <p style="text-align: center; font-size: 0.9rem; color: var(--gray-text);">
+                    Horários: Segunda a Sábado (consultar disponibilidade)
+                </p>
+                
+                <p style="text-align: center; font-size: 1.1rem; margin: 1.5rem 0;">
+                    <i class="fas fa-map-pin" style="color: var(--gold);"></i><br>
+                    <strong>Antônio Dias - MG</strong><br>
+                    <span style="font-size: 0.9rem; color: var(--gray-text);">Centro Integrado de Terapias Florescer</span>
+                </p>
+            </div>
+
+            <div class="contact-info">
+                <div class="contact-title">Agende sua Avaliação</div>
+                <div class="contact-detail">
+                    <i class="fab fa-whatsapp"></i> (31) 99786-7911
+                </div>
+                <div class="contact-note">
+                    Atendimento sujeito à disponibilidade de horários<br>
+                    Valores e condições via WhatsApp
+                </div>
+            </div>
+
+            <div class="cta-container">
+                <a href="https://wa.me/5531997867911?text=Olá, gostaria de agendar uma avaliação fisioterapêutica." target="_blank" class="cta-btn cta-whatsapp">
+                    <i class="fab fa-whatsapp"></i> Contatar via WhatsApp
+                </a>
+            </div>
+        </section>
+
+        <!-- Especialidades Section -->
+        <section id="especialidades" class="section">
+            <div class="doc-header">
+                <div class="doc-title">Áreas de Especialização</div>
+                <div class="doc-subtitle">Mestranda em Rendimento Esportivo pela Faculdade Uni Atlânticos - Espanha 🇪🇸</div>
+            </div>
+
+            <div class="specialty-grid">
+                <div class="specialty-card" onclick="showDetail('neuro')">
+                    <div class="specialty-icon">🧠</div>
+                    <div class="specialty-title">Neurofuncional</div>
+                </div>
+                
+                <div class="specialty-card" onclick="showDetail('traumato')">
+                    <div class="specialty-icon">🦴</div>
+                    <div class="specialty-title">Trauma-Ortopedia</div>
+                </div>
+                
+                <div class="specialty-card" onclick="showDetail('neurodiv')">
+                    <div class="specialty-icon">🧩</div>
+                    <div class="specialty-title">Criança Neurodivergente</div>
+                </div>
+                
+                <div class="specialty-card" onclick="showDetail('manual')">
+                    <div class="specialty-icon">👐</div>
+                    <div class="specialty-title">Terapia Manual</div>
+                </div>
+                
+                <div class="specialty-card" onclick="showDetail('escoliose')">
+                    <div class="specialty-icon">📊</div>
+                    <div class="specialty-title">Escoliose</div>
+                </div>
+            </div>
+
+            <div id="detail-container" style="margin-top: 2rem;">
+                <!-- Details will be inserted here via JS -->
+            </div>
+
+            <div class="cta-container" style="margin-top: 2rem;">
+                <button onclick="openModal()" class="cta-btn cta-primary">
+                    <i class="fas fa-calendar-check"></i> Agendar Avaliação Especializada
+                </button>
+            </div>
+        </section>
+
+        <!-- Cursos/Serviços Section -->
+        <section id="cursos" class="section">
+            <div class="doc-header">
+                <div class="doc-title">Cursos e Materiais</div>
+                <div class="doc-subtitle">Formação Continuada em Fisioterapia</div>
+            </div>
+
+            <!-- MASTERCLASS - Em Breve -->
+            <div class="course-card">
+                <div class="course-badge">Em Breve</div>
+                <div class="course-header">
+                    <div class="course-icon"><i class="fas fa-brain"></i></div>
+                    <div class="course-title-group">
+                        <h2>Masterclass de Raciocínio Clínico</h2>
+                        <p>Para fisioterapeutas e estudantes que buscam autonomia técnica</p>
+                    </div>
+                </div>
+                
+                <div class="course-body">
+                    <div class="course-section">
+                        <div class="section-title">
+                            <i class="fas fa-bullseye"></i> Propósito
+                        </div>
+                        <p class="course-text">
+                            Como atuo com a missão de ensinar fisioterapeutas e estudantes de fisioterapia a desenvolverem <strong>raciocínio clínico</strong> — a capacidade de pensar, decidir e conduzir com segurança, indo além de protocolos prontos.
+                        </p>
+                        <p class="course-text">
+                            Esta masterclass é voltada para profissionais que buscam clareza de pensamento, autonomia técnica e maturidade profissional na prática clínica diária.
+                        </p>
+                    </div>
+
+                    <div class="course-section">
+                        <div class="section-title">
+                            <i class="fas fa-graduation-cap"></i> O que você vai desenvolver
+                        </div>
+                        <ul class="feature-list">
+                            <li>Pensamento crítico aplicado à fisioterapia</li>
+                            <li>Tomada de decisão baseada em evidências</li>
+                            <li>Organização do raciocínio clínico</li>
+                            <li>Autonomia profissional e ética</li>
+                            <li>Aplicação prática em casos reais</li>
+                        </ul>
+                    </div>
+
+                    <div class="highlight-box">
+                        <p><i class="fas fa-info-circle" style="color: var(--gold); margin-right: 0.5rem;"></i> 
+                        Formação voltada para profissionais que querem deixar de depender de protocolos e desenvolver confiança clínica real.</p>
+                    </div>
+                </div>
+
+                <div class="course-footer">
+                    <button class="cta-btn cta-secondary" style="opacity: 0.6; cursor: not-allowed;">
+                        <i class="fas fa-clock"></i> Link de vendas em breve
+                    </button>
+                </div>
+            </div>
+
+            <!-- REVARA PRO - Sistema Principal -->
+            <div class="course-card">
+                <div class="course-badge featured">Sistema Completo</div>
+                <div class="course-header">
+                    <div class="course-icon"><i class="fas fa-laptop-medical"></i></div>
+                    <div class="course-title-group">
+                        <h2>Revara Pro</h2>
+                        <p>ASM Gestão Clínica - Gestão profissional na palma da mão</p>
+                    </div>
+                </div>
+
+                <div class="course-body">
+                    <div class="course-section">
+                        <div class="section-title">
+                            <i class="fas fa-file-medical"></i> Conceito
+                        </div>
+                        <p class="course-text">
+                            Sistema completo e profissional desenvolvido exclusivamente para fisioterapeutas e profissionais da saúde que desejam <strong>organizar sua clínica de forma eficiente, moderna e integrada</strong>.
+                        </p>
+                        <p class="course-text">
+                            Desenvolvido com tecnologia de ponta, o sistema funciona <strong>100% online</strong>, sem necessidade de instalação, sem mensalidades e com todos os dados armazenados de forma segura na nuvem (Firebase).
+                        </p>
+                    </div>
+
+                    <div class="course-section">
+                        <div class="section-title">
+                            <i class="fas fa-star"></i> Diferenciais do Sistema
+                        </div>
+                        <ul class="feature-list">
+                            <li>100% funcional online e offline</li>
+                            <li>Sem necessidade de instalação ou atualizações manuais</li>
+                            <li>Sem mensalidades - acesso vitalício</li>
+                            <li>Dados armazenados na nuvem (Firebase)</li>
+                            <li>Privacidade garantida e segura</li>
+                            <li>Integração total com WhatsApp</li>
+                            <li>Geração de PDFs profissionais personalizados</li>
+                            <li>Dashboard com gráficos e relatórios</li>
+                            <li>Agenda compartilhada com até 6 usuários</li>
+                            <li>Controle financeiro individual por profissional</li>
+                            <li>Prontuário e evoluções clínicas completas</li>
+                            <li>Relatórios profissionais por paciente</li>
+                            <li>Design exclusivo azul marinho e dourado</li>
+                            <li>Multiplataforma: celular, tablet e computador</li>
+                        </ul>
+                    </div>
+
+                    <div class="course-section">
+                        <div class="section-title">
+                            <i class="fas fa-th-large"></i> Módulos Principais
+                        </div>
+                        
+                        <h4 style="color: var(--navy); margin: 1rem 0 0.5rem; font-size: 1rem;">1. Configurações do Sistema</h4>
+                        <ul class="feature-list">
+                            <li>Personalização completa: nome do profissional, CREFITO, nome da clínica e chave PIX</li>
+                            <li>Armazenamento seguro na nuvem via Firebase</li>
+                            <li>Integração automática em todos os documentos</li>
+                        </ul>
+
+                        <h4 style="color: var(--navy); margin: 1rem 0 0.5rem; font-size: 1rem;">2. Agenda de Atendimentos</h4>
+                        <ul class="feature-list">
+                            <li>Calendário visual intuitivo com navegação mensal</li>
+                            <li>Cadastro completo: data, horário, tipo (Normal, Laser, Avaliação), valor</li>
+                            <li>Gestão de cancelamentos mantendo histórico</li>
+                            <li>Confirmação automática via WhatsApp</li>
+                        </ul>
+
+                        <h4 style="color: var(--navy); margin: 1rem 0 0.5rem; font-size: 1rem;">3. Cadastro de Pacientes</h4>
+                        <ul class="feature-list">
+                            <li>Ficha completa: dados pessoais, contato, valor padrão, queixa principal</li>
+                            <li>Busca rápida em cards com resumo financeiro visual</li>
+                            <li>4 abas de gerenciamento: Informações, Financeiro, Evolução e Relatório Mensal</li>
+                        </ul>
+                    </div>
+
+                    <div class="course-section">
+                        <div class="section-title">
+                            <i class="fas fa-chart-line"></i> Gestão Financeira e Clínica
+                        </div>
+                        
+                        <h4 style="color: var(--navy); margin: 1rem 0 0.5rem; font-size: 1rem;">Controle Financeiro por Paciente</h4>
+                        <ul class="feature-list">
+                            <li>Resumo visual: Pago vs Pendente em cards coloridos</li>
+                            <li>Seleção múltipla para cobrança com soma automática</li>
+                            <li>Cobrança automatizada via WhatsApp com PIX integrado</li>
+                            <li>Marcação rápida de pagamento com um clique</li>
+                        </ul>
+
+                        <h4 style="color: var(--navy); margin: 1rem 0 0.5rem; font-size: 1rem;">Prontuário e Evoluções</h4>
+                        <ul class="feature-list">
+                            <li>Registro de evoluções com data e hora automáticas</li>
+                            <li>Envio de evolução via WhatsApp individualmente</li>
+                            <li>Cópia para área de transferência</li>
+                            <li>Histórico completo organizado cronologicamente</li>
+                        </ul>
+
+                        <h4 style="color: var(--navy); margin: 1rem 0 0.5rem; font-size: 1rem;">Fluxo de Caixa Completo</h4>
+                        <ul class="feature-list">
+                            <li>Controle de entradas (atendimentos) e saídas (despesas)</li>
+                            <li>Cadastro de despesas por categoria: Material, Aluguel, Serviços, Outros</li>
+                            <li>Cálculo automático de saldo em tempo real</li>
+                            <li>Exportação para Excel (CSV)</li>
+                        </ul>
+                    </div>
+
+                    <div class="course-section">
+                        <div class="section-title">
+                            <i class="fas fa-file-pdf"></i> Relatórios Profissionais
+                        </div>
+                        <ul class="feature-list">
+                            <li><strong>Relatório Mensal do Paciente:</strong> PDF profissional com dados da clínica, paciente, lista de sessões, evoluções detalhadas e espaço para assinatura</li>
+                            <li><strong>Relatório Gerencial da Clínica:</strong> Resumo do mês, total de atendimentos, faturamento, lista de pacientes atendidos</li>
+                            <li><strong>Design exclusivo:</strong> Fundo azul marinho, folha branca, texto dourado no cabeçalho</li>
+                            <li>Múltiplas opções de envio: PDF, WhatsApp ou cópia de texto</li>
+                        </ul>
+                    </div>
+
+                    <div class="course-section">
+                        <div class="section-title">
+                            <i class="fas fa-shield-alt"></i> Segurança e Tecnologia
+                        </div>
+                        <ul class="feature-list">
+                            <li>Dados armazenados na nuvem via Firebase</li>
+                            <li>Funciona 100% offline após carregamento</li>
+                            <li>Privacidade garantida - dados protegidos</li>
+                            <li>Conformidade total com LGPD</li>
+                            <li>Multiplataforma: celular, tablet e computador</li>
+                        </ul>
+                    </div>
+
+                    <div class="highlight-box">
+                        <p><i class="fas fa-lightbulb" style="color: var(--gold); margin-right: 0.5rem;"></i> 
+                        <strong>Ideal para:</strong> Fisioterapeutas autônomos, clínicas de fisioterapia, consultórios individuais, clínicas multidisciplinares e profissionais que valorizam mobilidade e praticidade na gestão.</p>
+                    </div>
+                </div>
+
+                <div class="price-section">
+                    <div class="price-label">Investimento</div>
+                    <div class="price-old">De R$ 497,00</div>
+                    <div class="price-value">R$ 397,00</div>
+                    <div class="price-note">Preço de inauguração - Mês de Março<br>Oferta por tempo limitado</div>
+                </div>
+
+                <div class="course-footer">
+                    <a href="https://pay.kiwify.com.br/oIsTzaP" target="_blank" class="cta-btn cta-gold" style="font-size: 1.1rem; padding: 1.2rem 3rem;">
+                        <i class="fas fa-shopping-cart"></i> Adquirir o Sistema
+                    </a>
+                    <p style="margin-top: 1rem; font-size: 0.9rem; color: var(--gray-text);">Pagamento único • Acesso vitalício • Atualizações incluídas</p>
+                </div>
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- Modal Agendamento -->
+    <div class="modal-overlay" id="modal" onclick="closeModal(event)">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <span class="modal-close" onclick="closeModal()">&times;</span>
+            <div class="modal-title">Agendar Avaliação</div>
+            <div class="modal-text">
+                <p>Para agendar sua avaliação fisioterapêutica ou obter informações sobre valores e disponibilidade de horários, entre em contato diretamente pelo WhatsApp.</p>
+                <p style="margin-top: 1rem; font-size: 0.9rem; color: var(--gray-text);">
+                    <i class="fas fa-info-circle"></i> 
+                    Atendimento realizado em Ipatinga/MG e Antônio Dias/MG.
+                </p>
+            </div>
+            <a href="https://wa.me/5531997867911?text=Olá Dra Andresa, gostaria de agendar uma avaliação fisioterapêutica." target="_blank" class="modal-btn">
+                <i class="fab fa-whatsapp"></i> Continuar no WhatsApp
+            </a>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-logo">ASM <span>Fisioterapia</span></div>
+            <p>Dra Andresa Augusto - Fisioterapeuta - CREFITO 40.9314-F</p>
+            <p>Ipatinga - Minas Gerais</p>
+            <div class="footer-copy">
+                ©️ 2025 ASM Fisioterapia. Todos os direitos reservados.<br>
+                Proibida reprodução sem autorização.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function showSection(sectionId) {
+            const sections = document.querySelectorAll('.section');
+            sections.forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            const buttons = document.querySelectorAll('.nav-btn');
+            buttons.forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            document.getElementById(sectionId).classList.add('active');
+            event.target.closest('.nav-btn').classList.add('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function openModal() {
+            document.getElementById('modal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal(event) {
+            if (!event || event.target.id === 'modal' || event.target.classList.contains('modal-close')) {
+                document.getElementById('modal').classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
+        }
+
+        // Specialty details
+        const specialties = {
+            neuro: {
+                title: 'Neurofuncional',
+                content: 'Reabilitação neurológica para adultos e idosos com foco em recuperação funcional, reintegração às atividades diárias e qualidade de vida. Abordagem baseada em evidências e individualizada.'
+            },
+            traumato: {
+                title: 'Trauma-Ortopedia',
+                content: 'Reabilitação pós-cirúrgica e conservadora de lesões ortopédicas, fraturas, entorses e condições musculoesqueléticas. Avaliação biomecânica detalhada e tratamento direcionado à restauração funcional.'
+            },
+            neurodiv: {
+                title: 'Criança Neurodivergente',
+                content: 'Intervenção especializada para crianças com TEA, TDAH, paralisia cerebral e outras condições do neurodesenvolvimento, utilizando ABA (Análise do Comportamento Aplicada) e abordagens neurofuncionais para potencializar o desenvolvimento motor, cognitivo e social.'
+            },
+            manual: {
+                title: 'Terapia Manual',
+                content: 'Tratamento específico para disfunções musculoesqueléticas com fundamentação em anatomia, biomecânica e técnicas manuais avançadas para performance e reabilitação.'
+            },
+            escoliose: {
+                title: 'Escoliose',
+                content: 'Especialista em avaliação e tratamento especializado. Referência em tratamento de escoliose com abordagem multidisciplinar e protocolos baseados em evidências.'
+            }
+        };
+
+        function showDetail(specialty) {
+            const container = document.getElementById('detail-container');
+            const data = specialties[specialty];
+            
+            container.innerHTML = `
+                <div class="content-block" style="animation: fadeIn 0.5s ease;">
+                    <h3>${data.title}</h3>
+                    <p>${data.content}</p>
+                    <button onclick="openModal()" class="cta-btn cta-primary" style="margin-top: 1rem;">
+                        <i class="fas fa-calendar-check"></i> Agendar Avaliação nesta área
+                    </button>
+                </div>
+            `;
+            
+            container.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                closeModal();
+            }
+        });
+    </script>
+
+</body>
+</html>
